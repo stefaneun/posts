@@ -1,0 +1,15 @@
+import React from "react";
+
+import * as SC from "./styles";
+
+export const Post = ({ post }) => {
+    return (
+        <SC.Post>
+            <SC.Image>
+                <img src={post.image} alt={post.title} />
+            </SC.Image>
+            <SC.Title>{post.title}</SC.Title>
+            <SC.DetailLink to={`/posts/${post.id}`}>Читать далее...</SC.DetailLink>
+        </SC.Post>
+    );
+}
