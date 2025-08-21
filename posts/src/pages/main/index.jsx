@@ -1,6 +1,8 @@
 import React from "react";
 import { Posts } from '../../components/Posts'
 import { Container } from "../../components/container";
+import * as SC from './styles';
+import { Typo } from "../../components/Typo";
 
 const INITIAL_POST = [
     {
@@ -25,11 +27,12 @@ const INITIAL_POST = [
 
 ]
 
-export const Main = () => {
+export const MainPage = () => {
 
     return (
         <>
             <Container>
+                <Typo>Последние публикации</Typo>
                 <Posts posts={INITIAL_POST} />
             </Container>
         </>

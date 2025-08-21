@@ -4,7 +4,7 @@ import * as SC from "./styles";
 
 export const Posts = ({ posts }) => (<>
 
-    <SC.Title>Последние публикации</SC.Title>
+    
 
     <SC.PostContainer>
         {posts && posts.length > 0
