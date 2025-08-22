@@ -4,6 +4,6 @@ import * as SC from "./styles";
 export const Typo = ({ children }) => {
 
     return (
-        <h1>{children}</h1>
+        <SC.Title>{children}</SC.Title>
     )
 };

@@ -6,6 +6,7 @@ export const PostContainer = styled.div`
     padding: 10px;
     margin-bottom: 10px;
     display: flex;
+    gap: 15px;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
