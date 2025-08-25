@@ -1,25 +1,35 @@
-import { useParams } from "react-router";
-import { INITIAL_POST } from "../index";
-import { useMemo } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router"; 
 import { Typo } from "../../../components/Typo";
 import { Container } from "../../../components/container";
+import { useDispatch, useSelector } from "react-redux";
 import * as SC from "./styles";
+import { getPost } from "../../../redux/slices/postsSlice";
+
 
 export const DetailPostPage = () => {
 
   const { id } = useParams()
+  const postForView = useSelector((state) => {
+    return state.posts.postForView;
+  });
 
-  const currentPost = useMemo(() => (INITIAL_POST.find((post) => post.id === Number(id))), [id])
+  const dispatch = useDispatch();
 
-  if (!currentPost) {
+  useEffect(() => {
+    dispatch(getPost(id));
+  }, [id]); 
+
+
+  if (!postForView) {
     return <div>Пост не найден</div>
   }
 
   return (
     <Container>
-      <Typo>{currentPost.title}</Typo>
-      <SC.Image src={currentPost.image} alt={currentPost.title} />
-      <SC.Text>{currentPost.text}</SC.Text>
+      <Typo>{postForView.title}</Typo>
+      <SC.Image src={postForView.image} alt={postForView.title} />
+      <SC.Text>{postForView.text}</SC.Text>
       <SC.BackLink to="/posts">Назад</SC.BackLink>
     </Container>
   );

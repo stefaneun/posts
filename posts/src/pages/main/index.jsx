@@ -1,40 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Posts } from '../../components/Posts'
 import { Container } from "../../components/container";
 import * as SC from './styles';
 import { Typo } from "../../components/Typo";
+import { useDispatch, useSelector } from "react-redux";
+import { getFreshPosts } from "../../redux/slices/postsSlice";
 
-const INITIAL_POST = [
-    {
-        id: 1,
-        title: 'Post 1',
-        image: 'https://icdn.lenta.ru/images/2021/04/27/16/20210427163138131/square_320_c09ebae17387b7d6eeb9fa0d42afe5ee.jpg'
-
-    },
-    {
-        id: 2,
-        title: 'Post 2',
-        image: 'https://icdn.lenta.ru/images/2021/04/27/16/20210427163138131/square_320_c09ebae17387b7d6eeb9fa0d42afe5ee.jpg'
-
-    },
-    {
-        id: 3,
-        title: 'Post 3',
-        image: 'https://icdn.lenta.ru/images/2021/04/27/16/20210427163138131/square_320_c09ebae17387b7d6eeb9fa0d42afe5ee.jpg'
-
-    },
-    
-
-]
 
 export const MainPage = () => {
 
+    const dispatch = useDispatch();
+    
+    const postForView = useSelector((state) => state.posts.postForView);
+    const freshPosts = useSelector((state) => state.posts.freshPosts);
+
+    useEffect(() => {
+        dispatch(getFreshPosts())
+    }, [dispatch]);
+
+    if (freshPosts.length === 0) {
+        return <>Нет постов</>
+    }
+
     return (
-        <>
-            <Container>
-                <Typo>Последние публикации</Typo>
-                <Posts posts={INITIAL_POST} />
-            </Container>
-        </>
+
+        <Container>
+            <Typo>Последние публикации</Typo>
+            <Posts posts={freshPosts} />
+            {postForView && (
+                <>
+                    <Typo>Последние просмотренные пост</Typo>
+                    <Posts posts={[postForView]} />
+                </>
+            )}
+        </Container>
     )
 }
