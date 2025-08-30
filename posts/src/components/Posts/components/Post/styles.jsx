@@ -17,7 +17,7 @@ export const Image = styled.div`
     
 `;
 
-export const Title = styled.div`
+export const PostTitle = styled.div`
     font-size: 24px;
     font-weight: bold;
 `

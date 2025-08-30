@@ -7,7 +7,7 @@ export const Posts = ({ posts }) => (
     <SC.PostContainer>
         {posts && posts.length > 0
             ? posts.map((post) => <Post key={post.id} post={post} />)
-            : <div>Нет постов</div>
+            : <SC.Title>Нет постов</SC.Title>
         }
     </SC.PostContainer>
     

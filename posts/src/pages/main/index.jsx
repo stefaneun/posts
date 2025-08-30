@@ -6,31 +6,36 @@ import { Typo } from "../../components/Typo";
 import { useDispatch, useSelector } from "react-redux";
 import { getFreshPosts } from "../../redux/slices/postsSlice";
 
-
 export const MainPage = () => {
-
     const dispatch = useDispatch();
-    
-    const postForView = useSelector((state) => state.posts.postForView);
-    const freshPosts = useSelector((state) => state.posts.freshPosts);
+
+    const { post } = useSelector((state) => state.posts.postForView);
+    const { posts, loading } = useSelector((state) => state.posts.freshPosts);
 
     useEffect(() => {
         dispatch(getFreshPosts())
     }, [dispatch]);
 
-    if (freshPosts.length === 0) {
+
+    if (posts && posts.length === 0 && !loading) {
         return <>Нет постов</>
     }
 
     return (
-
         <Container>
-            <Typo>Последние публикации</Typo>
-            <Posts posts={freshPosts} />
-            {postForView && (
+            {loading && <>Загрузка свежих постов...</>}
+            
+            {posts && posts.length > 0 && (
+                <>
+                    <Typo>Последние публикации</Typo>
+                    <Posts posts={posts} />
+                </>
+            )}
+
+            {post && (
                 <>
                     <Typo>Последние просмотренные пост</Typo>
-                    <Posts posts={[postForView]} />
+                    <Posts posts={[post]} />
                 </>
             )}
         </Container>

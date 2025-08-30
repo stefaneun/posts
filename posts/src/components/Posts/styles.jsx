@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'; 
 
 export const PostContainer = styled.div`
     border: 1px solid #eee;
