@@ -20,6 +20,10 @@ export const MenuItem = styled(NavLink)`
     max-width: 120px;
     width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;   
 
     &:hover {
         background: #8b0202ff;
