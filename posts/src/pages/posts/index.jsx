@@ -12,8 +12,11 @@ export const PostsPage = () => {
   const { postsList, loading, error } = useSelector((state) => state.posts);
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    if (!postsList) {
+      dispatch(getPosts());
+    }
+
+  }, [postsList, dispatch]);
 
   if (!postsList) {
     return <Container>No posts available</Container>;
