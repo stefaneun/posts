@@ -1,40 +1,52 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Posts } from "../../components/Posts";
 import { Container } from "../../components/container";
 import { Typo } from "../../components/Typo";
-import { getPosts } from "../../redux/slices/postsSlice";
+import { 
+  getPosts, 
+  selectAllPosts, 
+  selectPostsLoading, 
+  selectPostsLoaded, 
+  selectPostsError 
+} from "../../redux/slices/postsSlice";
 
 export const PostsPage = () => {
   const dispatch = useDispatch();
+  
+  // Используем селекторы для оптимальной производительности
+  const allPosts = useSelector(selectAllPosts);
+  const loading = useSelector(selectPostsLoading);
+  const loaded = useSelector(selectPostsLoaded);
+  const error = useSelector(selectPostsError);
 
-
-  const { postsList, loading, error } = useSelector((state) => state.posts);
-
-  useEffect(() => {
-    if (!postsList) {
+  React.useEffect(() => {
+  
+    if (!loaded && !loading) {
       dispatch(getPosts());
     }
+  }, [dispatch, loaded, loading]);
 
-  }, [postsList, dispatch]);
-
-  if (!postsList) {
-    return <Container>No posts available</Container>;
+  if (loading && !loaded) {
+    return (
+      <Container>
+        <div>Loading...</div>
+      </Container>
+    );
   }
 
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (error && !loaded) {
+    return (
+      <Container>
+        <div>Error: {error}</div>
+      </Container>
+    );
   }
 
   return (
     <Container>
       <Typo>Публикации</Typo>
-      <Posts posts={postsList || []} />
+      <Posts posts={allPosts} />
     </Container>
   );
-};    
+};

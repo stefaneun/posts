@@ -1,37 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../../../../components/container";
 import * as SC from "./styles";
 import { Typo } from "../../../../components/Typo";
-import { useDispatch } from "react-redux";
-import { addPost } from "../../../../redux/slices/postsSlice";
 
 const DEFAULT_FORM_DATA = {
     title: "",
     body: ""
 };
 
-export const PostForm = () => {
-    const [formData, setFormData] = useState(
-        DEFAULT_FORM_DATA
-    );
+export const PostForm = ({ title, onSubmitForm, defaultFormData, isEditing = false }) => {
+    const [formData, setFormData] = useState(defaultFormData ? defaultFormData : DEFAULT_FORM_DATA);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const dispatch = useDispatch();
+    useEffect(() => {
+        if (defaultFormData) {
+            setFormData(defaultFormData);
+        }
+    }, [defaultFormData]);
 
     const onChange = (name, value) => {
         setFormData({ ...formData, [name]: value });
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        dispatch(addPost(formData))
-        setFormData(DEFAULT_FORM_DATA);
+
+        if (disabled || isSubmitting) return;
+
+        setIsSubmitting(true);
+
+        try {
+            await onSubmitForm(formData);
+
+            if (!isEditing) {
+                setFormData(DEFAULT_FORM_DATA);
+            }
+        } catch (error) {
+            console.error('Ошибка при отправке формы:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
-    const disabled = !formData.title || !formData.body;
+    const disabled = !formData.title.trim() || !formData.body.trim() || isSubmitting;
 
     return (
         <Container>
-            <Typo>Создать новый пост</Typo>
+            <Typo>{title}</Typo>
             <SC.formContainer onSubmit={onSubmit}>
                 <SC.Title>Заголовок:</SC.Title>
                 <SC.field>
@@ -42,6 +57,7 @@ export const PostForm = () => {
                         value={formData.title}
                         onChange={(e) => onChange(e.target.name, e.target.value)}
                         rows={1}
+                        disabled={isSubmitting}
                     />
                 </SC.field>
                 <SC.Title>Содержимое:</SC.Title>
@@ -53,9 +69,15 @@ export const PostForm = () => {
                         cols={30}
                         value={formData.body}
                         onChange={(e) => onChange(e.target.name, e.target.value)}
+                        disabled={isSubmitting}
                     />
                 </SC.field>
-                <SC.Button type="submit" disabled={disabled}>Создать пост</SC.Button>
+                <SC.Button
+                    type="submit"
+                    disabled={disabled}
+                >
+                    {isSubmitting ? 'Сохранение...' : 'Сохранить'}
+                </SC.Button>
             </SC.formContainer>
         </Container>
     );

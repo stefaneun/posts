@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Posts } from '../../components/Posts'
 import { Container } from "../../components/container";
-import * as SC from './styles';
 import { Typo } from "../../components/Typo";
 import { useDispatch, useSelector } from "react-redux";
 import { getFreshPosts } from "../../redux/slices/postsSlice";
