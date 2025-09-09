@@ -6,13 +6,31 @@ export const BackLink = styled(Link)`
     left: 40px;
     top: 80px;
     display: inline-block;
-    margin-top: 12px;
     color: #8b0202ff;    
     text-decoration: none;
     padding: 8px 16px;
     background: #ffffff;
     border: 1px solid #ddd;
     border-radius: 5px;
+
+    &:hover {
+        cursor: pointer;
+        background: #c3c3c3;
+    }
+`;
+
+export const EditLink = styled(Link)`
+   max-width: 100px;
+   display:  flex;
+   justify-content: center;
+   align-items: center;
+    color: #8b0202ff;    
+    text-decoration: none;
+    padding: 8px 16px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 12px;
 
     &:hover {
         cursor: pointer;
