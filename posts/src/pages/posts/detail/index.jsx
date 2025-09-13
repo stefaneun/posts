@@ -1,20 +1,30 @@
 import React from "react";
-import { useEffect, useMemo } from "react";
-import { useParams } from "react-router";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import { Typo } from "../../../components/Typo";
 import { Container } from "../../../components/container";
 import { useDispatch, useSelector } from "react-redux";
 import * as SC from "./styles";
-import { getPostById, showPost, selectAllPosts } from "../../../redux/slices/postsSlice";
+import { getPostById, showPost, deletePost } from "../../../redux/slices/postsSlice";
 import photo from "../../../components/photos/cats.jpg";
 
 export const DetailPostPage = () => {
   const { id } = useParams()
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
+
   const postForView = useSelector((state) => state.posts.postForView);
   const { postsList, localPosts } = useSelector((state) => state.posts);
 
-  
+  const [postForDelete, setPostForDelete] = useState(null); 
+
+  const onDeletePost = () => {
+    setPostForDelete(null);
+    dispatch(deletePost(postForDelete.id));
+    navigate("/posts");
+  }
+
   const allPosts = useMemo(() => {
     return [...(localPosts || []), ...(postsList || [])];
   }, [postsList, localPosts]);
@@ -47,13 +57,31 @@ export const DetailPostPage = () => {
 
   return (
     <Container>
+      {postForDelete && <SC.ModalWrapper>
+        <SC.Modal>
+          <div>Вы точно хотите удалить пост c id {postForDelete.id}?</div>
+          <SC.BtnWrapper>
+            <SC.DeleteButton onClick={onDeletePost}>Удалить</SC.DeleteButton>
+            <SC.CancelButton onClick={() => setPostForDelete(null)}>Отмена</SC.CancelButton>
+          </SC.BtnWrapper>
+        </SC.Modal>
+      </SC.ModalWrapper>}
+
       <Typo>{post.title}</Typo>
       {post?.image
         ? <SC.Image src={post.image} alt={post.title} />
         : <SC.Image src={photo} alt={post?.title || "no title"} />}
       <SC.Text>{post?.body || post?.text}</SC.Text>
-      <SC.BackLink to="/posts">Назад</SC.BackLink>
-      <SC.EditLink to={`/posts/${post.id}/edit`} >редактировать</SC.EditLink  >
+
+      <SC.BtnWrapper>
+        <SC.BackLink to="/posts">Назад</SC.BackLink>
+        <SC.EditLink to={`/posts/${post.id}/edit`} >редактировать</SC.EditLink  >
+        <SC.DeleteButton onClick={() => setPostForDelete(post)}>Удалить</SC.DeleteButton>
+      </SC.BtnWrapper>
+
+
     </Container>
+
+
   );
 };

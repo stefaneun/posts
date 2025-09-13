@@ -91,10 +91,17 @@ export const postsSlice = createSlice({
             }
         },
 
-        removePost: (state, action) => {
+
+        deletePost: (state, action) => {
             const postId = action.payload;
             state.localPosts = state.localPosts.filter(post => post.id !== postId);
             state.postsList = state.postsList.filter(post => post.id !== postId);
+
+            state.postForView = {
+                post: null,
+                loading: false,
+                error: null
+            }
         }
 
     },
@@ -139,7 +146,7 @@ export const postsSlice = createSlice({
     }
 })
 
-export const { editPost, addPost, showPost, removePost } = postsSlice.actions
+export const { editPost, addPost, showPost, deletePost } = postsSlice.actions
 
 export const selectAllPosts = createSelector(
     [
