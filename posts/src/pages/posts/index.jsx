@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Posts } from "../../components/Posts";
-import { Container } from "../../components/container";
-import { Typo } from "../../components/Typo";
+import { Container } from "../../components/ui/container";
+import { Typo } from "../../components/ui/Typo";
 import { 
   getPosts, 
   selectAllPosts, 
@@ -13,8 +13,7 @@ import {
 
 export const PostsPage = () => {
   const dispatch = useDispatch();
-  
-  // Используем селекторы для оптимальной производительности
+
   const allPosts = useSelector(selectAllPosts);
   const loading = useSelector(selectPostsLoading);
   const loaded = useSelector(selectPostsLoaded);

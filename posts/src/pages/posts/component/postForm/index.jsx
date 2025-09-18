@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container } from "../../../../components/container";
+import { Container } from "../../../../components/ui/container";
 import * as SC from "./styles";
-import { Typo } from "../../../../components/Typo";
+import { Typo } from "../../../../components/ui/Typo";
+import { Form } from "../../../../components/ui/Form";
+import { Field } from "../../../../components/ui/Field";
+import { Input } from "../../../../components/ui/input";
+import { SubmitButton } from "../../../../components/ui/SubmitButton";
 
 const DEFAULT_FORM_DATA = {
     title: "",
@@ -47,10 +51,10 @@ export const PostForm = ({ title, onSubmitForm, defaultFormData, isEditing = fal
     return (
         <Container>
             <Typo>{title}</Typo>
-            <SC.formContainer onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit}>
                 <SC.Title>Заголовок:</SC.Title>
-                <SC.field>
-                    <SC.Input
+                <Field>
+                    <Input
                         type="text"
                         name="title"
                         placeholder="Напишите что-нибудь..."
@@ -59,9 +63,9 @@ export const PostForm = ({ title, onSubmitForm, defaultFormData, isEditing = fal
                         rows={1}
                         disabled={isSubmitting}
                     />
-                </SC.field>
+                </Field>
                 <SC.Title>Содержимое:</SC.Title>
-                <SC.field>
+                <Field>
                     <SC.textArea
                         name="body"
                         placeholder="Однажды я пошел в лес за грибами..."
@@ -71,14 +75,14 @@ export const PostForm = ({ title, onSubmitForm, defaultFormData, isEditing = fal
                         onChange={(e) => onChange(e.target.name, e.target.value)}
                         disabled={isSubmitting}
                     />
-                </SC.field>
-                <SC.Button
+                </Field>
+                <SubmitButton
                     type="submit"
                     disabled={disabled}
                 >
                     {isSubmitting ? 'Сохранение...' : 'Сохранить'}
-                </SC.Button>
-            </SC.formContainer>
+                </SubmitButton>
+            </Form>
         </Container>
     );
 };

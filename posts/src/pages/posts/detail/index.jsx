@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { Typo } from "../../../components/Typo";
-import { Container } from "../../../components/container";
+import { Typo } from "../../../components/ui/Typo";
+import { Container } from "../../../components/ui/container";
 import { useDispatch, useSelector } from "react-redux";
 import * as SC from "./styles";
 import { getPostById, showPost, deletePost } from "../../../redux/slices/postsSlice";
@@ -78,8 +78,6 @@ export const DetailPostPage = () => {
         <SC.EditLink to={`/posts/${post.id}/edit`} >редактировать</SC.EditLink  >
         <SC.DeleteButton onClick={() => setPostForDelete(post)}>Удалить</SC.DeleteButton>
       </SC.BtnWrapper>
-
-
     </Container>
 
 
