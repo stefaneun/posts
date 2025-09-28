@@ -3,7 +3,7 @@ import { Typo } from "../../components/ui/Typo";
 import { Container } from "../../components/ui/container";
 import { Field } from "../../components/ui/Field";
 import { Input } from "../../components/ui/input";
-import { RegForm } from "./styles";
+import { Form } from "./styles";
 import { SubmitButton } from "../../components/ui/SubmitButton";
 import { Title } from "../posts/component/postForm/styles";
 import { useNavigate } from "react-router";
@@ -60,7 +60,7 @@ export const RegistrationPage = () => {
   return (
     <Container>
       <Typo>Регистрация</Typo>
-      <RegForm onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit}>
         <Title>Введите ваши данные:</Title>
         <Field>
           <Input
@@ -98,7 +98,7 @@ export const RegistrationPage = () => {
           />
         </Field>
         <SubmitButton type="submit" disabled={disabled}>Зарегистрироваться</SubmitButton>
-      </RegForm>
+      </Form>
     </Container>
   );
 };

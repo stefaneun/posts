@@ -17,7 +17,11 @@ export const DetailPostPage = () => {
   const postForView = useSelector((state) => state.posts.postForView);
   const { postsList, localPosts } = useSelector((state) => state.posts);
 
-  const [postForDelete, setPostForDelete] = useState(null); 
+  const { user } = useSelector((state) => state.auth);
+
+  const showEditAndDelete = user && postsList
+
+  const [postForDelete, setPostForDelete] = useState(null);
 
   const onDeletePost = () => {
     setPostForDelete(null);
@@ -75,8 +79,12 @@ export const DetailPostPage = () => {
 
       <SC.BtnWrapper>
         <SC.BackLink to="/posts">Назад</SC.BackLink>
-        <SC.EditLink to={`/posts/${post.id}/edit`} >редактировать</SC.EditLink  >
-        <SC.DeleteButton onClick={() => setPostForDelete(post)}>Удалить</SC.DeleteButton>
+        {showEditAndDelete && (
+          <>
+            <SC.EditLink to={`/posts/${post.id}/edit`} >редактировать</SC.EditLink  >
+            <SC.DeleteButton onClick={() => setPostForDelete(post)}>Удалить</SC.DeleteButton>
+          </>
+        )}
       </SC.BtnWrapper>
     </Container>
 
